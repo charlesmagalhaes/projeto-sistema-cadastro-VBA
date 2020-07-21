@@ -1,0 +1,430 @@
+Private Sub cmdAbrirPlanilha_Click()
+Application.Visible = True
+End Sub
+
+Private Sub cmdAnterior_Click()
+
+Sheets("Plan1").Select
+
+ActiveCell.Offset(-1, 0).Select
+    
+    If ActiveCell = "Matricula" Then
+    
+    ActiveCell.Offset(1, 0).Select
+    MsgBox ("Você está no primeiro registro"), vbInformation, "Agenda"
+    
+    Else
+     
+    
+    CarregarDadosNoFormulario
+    
+    End If
+End Sub
+
+Private Sub cmdAtualizar_Click()
+
+If txtMatricula.Value = "" Then
+
+    MsgBox ("Algum campo está fazio ou todos"), vbInformation, "Confirmação"
+
+Exit Sub
+Else
+
+    ActiveCell.Offset(0, 0).Value = txtMatricula.Text
+    ActiveCell.Offset(0, 1).Value = txtAluno.Text
+    ActiveCell.Offset(0, 2).Value = txtCurso.Text
+   ' ActiveCell.Offset(0, 3).Value = hoje
+    ActiveCell.Offset(0, 4).Value = txtRecebidoPor.Text
+    ActiveCell.Offset(0, 5).Value = txtEmail.Text
+    ActiveCell.Offset(0, 6).Value = txtTelefone.Text
+ 
+    
+    MsgBox ("Atualização feita com sucesso"), vbInformation, "Confirmação"
+    
+  End If
+    
+    
+End Sub
+
+Private Sub cmdAtualizarLisBox_Click()
+
+
+
+Private Sub cmdBuscar_Click()
+
+If txtMatricula2.Text = "" Then
+    MsgBox ("Digite a matricula do aluno para carregar o formulário"), vbInformation, "Confirmação"
+Exit Sub
+
+    Else
+    
+    Sheets("Plan1").Select
+    Range("A2").Select
+    
+        
+
+End If
+
+Do 'repita
+    
+    
+     If IsNumeric(ActiveCell) Then
+        
+        
+        If ActiveCell.Value = txtMatricula2.Value Then
+       
+            Exit Do
+        End If
+        
+        
+        ActiveCell.Offset(1, 0).Select
+        
+        If IsEmpty(ActiveCell) Then
+        
+        
+            MsgBox ("Não Localizado"), vbInformation, "Confirmação"
+            Exit Do
+            
+        End If
+  
+
+    Else
+    
+    Exit Do
+    
+    End If
+    
+
+    Loop Until ActiveCell.Text = txtMatricula2.Text
+
+    
+        
+    CarregarDadosNoFormulario
+
+
+End Sub
+
+Private Sub cmdCarregar_Click()
+
+Sheets("plan2").Select
+
+If txtMatricula2.Text = "" Then
+    MsgBox ("Digite a matricula do aluno para carregar o formulário"), vbInformation, "Confirmação"
+Exit Sub
+
+    Else
+    
+    
+        Sheets("plan2").Range("A2").Select
+
+End If
+
+Do 'repita
+    
+    
+     If IsNumeric(ActiveCell) Then
+        
+        
+        If ActiveCell.Value = txtMatricula2.Value Then
+       
+            Exit Do
+        End If
+        
+        
+        ActiveCell.Offset(1, 0).Select
+        
+        If IsEmpty(ActiveCell) Then
+        
+        
+            MsgBox ("Não Localizado"), vbInformation, "Confirmação"
+            Exit Do
+            
+        End If
+  
+
+    Else
+    
+    Exit Do
+    
+    End If
+    
+
+    Loop Until ActiveCell.Text = txtMatricula2.Text
+
+    
+        
+    txtMatricula.Text = ActiveCell.Offset(0, 0).Value
+    txtAluno.Text = ActiveCell.Offset(0, 1).Value
+    txtCurso.Text = ActiveCell.Offset(0, 2).Value
+    txtTelefone.Text = ActiveCell.Offset(0, 3).Value
+    txtEmail.Text = ActiveCell.Offset(0, 6).Value
+        
+    
+    
+
+
+End Sub
+
+Private Sub CmdCarregarRapida_Click()
+
+
+If txtMatricula2.Text = "" Then
+
+    MsgBox ("Digite a matricula do aluno para carregar o formulário"), vbInformation, "Confirmação"
+
+
+ Exit Sub
+
+   Else
+ 
+
+        Sheets("PROCV").Select
+        Range("A2").Select
+        
+        ActiveCell.Offset(0, 0).Value = txtMatricula2.Text
+        
+        If ActiveCell.Offset(0, 1).Value <> "não encontrado" Then
+        
+            txtMatricula.Text = ActiveCell.Offset(0, 0).Value
+            txtAluno.Text = ActiveCell.Offset(0, 1).Value
+            txtCurso.Text = ActiveCell.Offset(0, 2).Value
+            txtTelefone.Text = ActiveCell.Offset(0, 4).Value
+            txtEmail.Text = ActiveCell.Offset(0, 3).Value
+            
+        Else
+        
+        MsgBox "Não foi encontrado o aluno com a matricula digitada!", vbInformation, "Busca"
+            
+        End If
+        
+        Sheets("Plan1").Select
+
+End If
+
+End Sub
+
+Private Sub cmdExcluir_Click()
+
+
+
+If MsgBox("Você tem certeza que deseja excluir esse registro", vbYesNo, "Confirmação") = vbYes Then
+lin = ActiveCell.Row
+Rows(lin).Select
+Selection.Delete Shift:=xlUp
+
+   ' ActiveCell.Offset(0, 0).Value = Empty
+    'ActiveCell.Offset(0, 1).Value = Empty
+   ' ActiveCell.Offset(0, 2).Value = Empty
+    'ActiveCell.Offset(0, 3).Value = Empty
+    'ActiveCell.Offset(0, 4).Value = Empty
+    'ActiveCell.Offset(0, 5).Value = Empty
+    'ActiveCell.Offset(0, 6).Value = Empty
+    MsgBox ("Registro excluido com sucesso"), vbInformation, "Confirmação"
+    LimparCampos
+    ActiveWorkbook.Save
+    
+    
+End If
+
+End Sub
+
+Private Sub cmdFecharPlanilha_Click()
+
+Application.Visible = False
+
+End Sub
+
+Private Sub cmdNovo_Click()
+
+LimparCampos
+txtAluno.SetFocus
+
+End Sub
+
+Private Sub cmdProximo_Click()
+
+Sheets("Plan1").Select
+
+ ActiveCell.Offset(1, 0).Select
+    
+    If ActiveCell = "" Then
+    
+        ActiveCell.Offset(-1, 0).Select
+        MsgBox ("Você está no ultimo registro"), vbInformation, "Agenda"
+    End If
+    
+    
+        CarregarDadosNoFormulario
+
+
+End Sub
+
+Private Sub cmdSalvar_Click()
+
+
+
+
+ If txtAluno.Text = "" Or txtMatricula.Text = "" Or txtCurso.Text = "" Or txtRecebidoPor.Text = "" Or txtEmail.Text = "" Or txtTelefone.Text = "" Then
+
+    MsgBox ("Algum campo está fazio ou todos"), vbInformation, "Confirmação"
+
+ Exit Sub
+ Else
+        Sheets("Plan1").Select
+        Range("A2").Select
+        Rows("2:2").Select
+        Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+        
+     
+
+'Do
+      '  If Not (IsEmpty(ActiveCell)) Then
+               ' ActiveCell.Offset(1, 0).Select
+        'End If
+        
+    'Loop Until IsEmpty(ActiveCell) = True
+    
+                 
+    ActiveCell.Offset(0, 0).Value = txtMatricula.Text
+    ActiveCell.Offset(0, 1).Value = txtAluno.Text
+    ActiveCell.Offset(0, 2).Value = txtCurso.Text
+   ActiveCell.Offset(0, 3).Value = Now()
+    ActiveCell.Offset(0, 4).Value = txtRecebidoPor.Text
+    ActiveCell.Offset(0, 5).Value = txtEmail.Text
+    ActiveCell.Offset(0, 6).Value = txtTelefone.Text
+    
+    Sheets("comprovante").Select
+    
+    Range("C6").Select
+    
+    ActiveCell.Offset(0, 0).Value = txtCurso.Text
+    ActiveCell.Offset(4, 0).Value = txtAluno.Text
+    ActiveCell.Offset(6, 0).Value = txtMatricula.Text
+    Range("C19").Select
+    ActiveCell.Offset(0, 0).Value = txtRecebidoPor.Text
+    Range("C8").Select
+    ActiveCell.Offset(0, 0).Value = Now()
+    
+            
+        If MsgBox("Você quer imprimir o comprovante?", vbYesNo, "Confirmação") = vbYes Then
+         
+         ActiveWindow.SelectedSheets.PrintOut Copies:=1, Collate:=True, _
+             IgnorePrintAreas:=False
+             
+                          
+         End If
+         
+         
+         'If MsgBox("Você quer enviar o comprovante por e-mail?", vbYesNo, "Confirmação") = vbYes Then
+         
+        ' EnviaEmail
+             
+                          
+         'End If
+        
+        
+    Sheets("Plan1").Select
+    ActiveWorkbook.Save
+    MsgBox "Cadastro salvo com sucesso!", vbInformation, "Cadastro"
+    LimparCampos
+ 
+ End If
+
+End Sub
+
+Public Sub LimparCampos()
+
+    txtMatricula.Text = ""
+    txtAluno.Text = ""
+    txtCurso.Text = ""
+    txtRecebidoPor.Text = ""
+    txtEmail.Text = ""
+    txtTelefone.Text = ""
+
+End Sub
+
+Public Sub CarregarDadosNoFormulario()
+
+    txtMatricula.Text = ActiveCell.Offset(0, 0).Value
+    txtAluno.Text = ActiveCell.Offset(0, 1).Value
+    txtCurso.Text = ActiveCell.Offset(0, 2).Value
+   ' ActiveCell.Offset(0, 3).Value = hoje
+    txtRecebidoPor.Text = ActiveCell.Offset(0, 4).Value
+    txtEmail.Text = ActiveCell.Offset(0, 5).Value
+    txtTelefone.Text = ActiveCell.Offset(0, 6).Value
+
+End Sub
+
+Private Sub CommandButton2_Click()
+
+Application.Visible = True
+
+End Sub
+
+Private Sub CommandButton3_Click()
+
+End Sub
+
+Private Sub Frame1_Click()
+
+End Sub
+
+Private Sub ListBox1_Click()
+
+    Sheets("Plan1").Select
+
+    txtMatricula.Value = WorksheetFunction.VLookup(ListBox1.Value, Plan1.Range("a:g"), 1, False)
+    txtAluno.Value = WorksheetFunction.VLookup(ListBox1.Value, Plan1.Range("a:g"), 2, False)
+    txtCurso.Value = WorksheetFunction.VLookup(ListBox1.Value, Plan1.Range("a:g"), 3, False)
+    txtRecebidoPor.Value = WorksheetFunction.VLookup(ListBox1.Value, Plan1.Range("a:g"), 5, False)
+    txtEmail.Value = WorksheetFunction.VLookup(ListBox1.Value, Plan1.Range("a:g"), 6, False)
+    txtTelefone.Value = WorksheetFunction.VLookup(ListBox1.Value, Plan1.Range("a:g"), 6, False)
+
+
+
+
+
+'Do 'repita
+    
+              
+       ' ActiveCell.Offset(1, 0).Select
+         
+
+   'Loop Until IsEmpty(ActiveCell) = True
+
+End Sub
+
+Private Sub txtMatricula2_AfterUpdate()
+
+
+
+
+
+End Sub
+
+
+Private Sub txtTelefone_Change()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+
+Application.Visible = False
+Sheets("Plan1").Select
+CarregarDadosNoFormulario
+
+Application.Visible = False
+
+End Sub
+
+
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+
+Cancel = 1
+Sheets("Plan1").Select
+ActiveWorkbook.Save
+Application.Quit
+
+
+End Sub
