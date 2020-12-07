@@ -109,7 +109,7 @@ Private Sub cmdCarregar_Click()
 Sheets("plan2").Select
 
 If txtMatricula2.Text = "" Then
-    MsgBox ("Digite a matricula do aluno para carregar o formulário"), vbInformation, "Confirmação"
+    MsgBox ("Digite a matricula do aluno para carregar o formulário."), vbInformation, "Confirmação"
 Exit Sub
 
     Else
